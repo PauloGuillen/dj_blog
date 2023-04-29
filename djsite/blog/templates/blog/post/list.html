@@ -15,6 +15,6 @@
       Published {{ post.publish }} by {{ post.author }}
     </p>
     {{ post.body|truncatewords:10|linebreaks }}
-    {% include "blog/pagination.html" with page=posts %}
+    {% include "blog/pagination.html" with page=page_obj %}
   {% endfor %}
 {% endblock %}
