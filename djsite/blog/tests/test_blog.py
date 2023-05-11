@@ -3,7 +3,6 @@ from djsite.django_assertions import assert_contains
 import pytest
 from model_bakery import baker
 
-
 from djsite.blog.models import Post
 
 

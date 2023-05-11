@@ -21,8 +21,21 @@ def resp(client, post):
                                       'post': post.slug}))
 
 
+@pytest.fixture
+def resp_nao_encotrado(client, post):
+    return client.get(reverse('blog:post_detail',
+                              kwargs={'year': post.publish.year,
+                                      'month': post.publish.month,
+                                      'day': post.publish.day,
+                                      'post': post.slug+'post_nao_encotrado'}))
+
+
 def test_status_code(resp):
     assert resp.status_code == 200
+
+
+def test_post_nao_encontrado(resp_nao_encotrado):
+    assert resp_nao_encotrado.status_code == 404
 
 
 def test_detail_titulo(resp, post):
@@ -35,3 +48,11 @@ def test_detail_author(resp, post):
 
 def test_detail_body(resp, post):
     assert_contains(resp, post.body)
+
+
+def test_detail_share(resp, post):
+    assert_contains(resp, 'Share this post')
+
+
+def test_detail_share_link(resp, post):
+    assert_contains(resp, f'href="{reverse("blog:post_share", args=[post.id])}"')
